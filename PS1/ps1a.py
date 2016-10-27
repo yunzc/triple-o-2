@@ -77,9 +77,8 @@ def greedy_cow_transport(cows,limit=10):
         #remove the transported cows from list 
         for transported_cow in item_for_trip:
             cows_list.remove(transported_cow)
-    print (transport_list)
-cows = load_cows('ps1_cow_data.txt')
-greedy_cow_transport(cows)
+    return (transport_list)
+
         
 # Problem 3
 def brute_force_cow_transport(cows,limit=10):
@@ -103,9 +102,25 @@ def brute_force_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
-        
+    # TODO: Your code here 
+    cow_list = cows.keys()
+    final_trip_plan = []
+    #partition cows and iterate over different partitions -- starting with one partition (one trip) and increasing
+    for trip_plan in get_partitions(cow_list):
+        #check weight for each trip: if weight exceeds limit, overweight = 0
+        overweight = 1  
+        for trip in trip_plan:
+            trip_weight = 0
+            for cow in trip:
+                trip_weight += cows[cow]
+            if trip_weight > limit:
+                overweight *= 0
+                break #if one trip overweight, trip plan invalid
+        if overweight == 1: #find the first viable trip plan with least partition 
+            final_trip_plan = trip_plan
+            break
+    return (final_trip_plan)
+  
 # Problem 4
 def compare_cow_transport_algorithms():
     """
@@ -121,4 +136,21 @@ def compare_cow_transport_algorithms():
     Does not return anything.
     """
     # TODO: Your code here
-    pass
+    cows = load_cows('ps1_cow_data.txt')
+    start1 = time.time() #take note of start time
+    greedy_plan = greedy_cow_transport(cows)
+    end1 = time.time() #end time when finish with greedy algo
+    greedy_time = end1 - start1
+    greedy_num_trips = len(greedy_plan) #length of plan list is the number of trips
+    start2 = time.time() #start time for greedy 2
+    brutey_plan = brute_force_cow_transport(cows)
+    end2 = time.time() #end time upon completion of brute force algo 
+    brutey_time = end2 - start2
+    brutey_num_trips = len(brutey_plan)
+    print ('Greedy algorithm planed %s trips' % str(greedy_num_trips))
+    print ('Greedy algorithm took %s seconds' % str(greedy_time))
+    print ('Brute Force algorithm planed %s trips' % str(brutey_num_trips))
+    print ('Brute Force algorithm took %s seconds' % str(brutey_time))
+
+compare_cow_transport_algorithms()
+
