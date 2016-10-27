@@ -23,7 +23,24 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
     Returns: int, smallest number of eggs needed to make target weight
     """
     # TODO: Your code here
-    pass
+    if target_weight in egg_weights:#if target weight identical to the weight of any of the eggs, just need that one egg 
+        return 1
+    elif target_weight in memo.keys(): #take from memo is value is known 
+        return memo(target_weight)
+    else: #when value has not yet been calculated and is not identical to weight of any of the eggs 
+        #find the largest egg that can fit 
+        egg_weights_sorted = sorted(egg_weights, reverse=True) #try largest value first 
+        heaviest_possible = 0
+        for weight in egg_weights_sorted:
+            if weight < target_weight:
+                heaviest_possible = weight 
+                break
+        """least number of eggs is the least number of eggs for the weight of the heaviest egg possible subtracted 
+        from the target weight"""
+        least_possible_eggs = 1 + dp_make_weight(egg_weights ,target_weight - heaviest_possible, memo = {}) 
+        memo[target_weight] = least_possible_eggs #add new value to memo 
+        return least_possible_eggs
+
 
 # EXAMPLE TESTING CODE, feel free to add more if you'd like
 if __name__ == '__main__':
