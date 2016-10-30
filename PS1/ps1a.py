@@ -137,14 +137,14 @@ def compare_cow_transport_algorithms():
     """
     # TODO: Your code here
     cows = load_cows('ps1_cow_data.txt')
-    start1 = time.time() #take note of start time
+    start1 = time.clock() #take note of start time
     greedy_plan = greedy_cow_transport(cows)
-    end1 = time.time() #end time when finish with greedy algo
+    end1 = time.clock() #end time when finish with greedy algo
     greedy_time = end1 - start1
     greedy_num_trips = len(greedy_plan) #length of plan list is the number of trips
-    start2 = time.time() #start time for greedy 2
+    start2 = time.clock() #start time for greedy 2
     brutey_plan = brute_force_cow_transport(cows)
-    end2 = time.time() #end time upon completion of brute force algo 
+    end2 = time.clock() #end time upon completion of brute force algo 
     brutey_time = end2 - start2
     brutey_num_trips = len(brutey_plan)
     print ('Greedy algorithm planed %s trips' % str(greedy_num_trips))
