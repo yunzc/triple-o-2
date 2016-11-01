@@ -1,8 +1,8 @@
 ###########################
 # 6.0002 Problem Set 1a: Space Cows 
-# Name:
-# Collaborators:
-# Time:
+# Name: Yun Chang
+# Collaborators: None
+# Time: 10/31/2016 11:00 pm 
 
 from ps1_partition import get_partitions
 import time
@@ -103,23 +103,24 @@ def brute_force_cow_transport(cows,limit=10):
     trips
     """
     # TODO: Your code here 
-    cow_list = cows.keys()
-    final_trip_plan = []
+    cow_list = list(cows.keys())
     #partition cows and iterate over different partitions -- starting with one partition (one trip) and increasing
+    min_num_trip = len(cow_list)
+    optimal_plan = []
     for trip_plan in get_partitions(cow_list):
-        #check weight for each trip: if weight exceeds limit, overweight = 0
-        overweight = 1  
+        #check weight for each trip: if weight exceeds limit, overweight = 0 
+        overweight = 1 
         for trip in trip_plan:
             trip_weight = 0
             for cow in trip:
                 trip_weight += cows[cow]
             if trip_weight > limit:
                 overweight *= 0
-                break #if one trip overweight, trip plan invalid
         if overweight == 1: #find the first viable trip plan with least partition 
-            final_trip_plan = trip_plan
-            break
-    return (final_trip_plan)
+            if len(trip_plan) < min_num_trip:
+                min_num_trip = len(trip_plan)
+                optimal_plan = trip_plan
+    return optimal_plan 
   
 # Problem 4
 def compare_cow_transport_algorithms():
@@ -151,6 +152,5 @@ def compare_cow_transport_algorithms():
     print ('Greedy algorithm took %s seconds' % str(greedy_time))
     print ('Brute Force algorithm planed %s trips' % str(brutey_num_trips))
     print ('Brute Force algorithm took %s seconds' % str(brutey_time))
-
 compare_cow_transport_algorithms()
 
