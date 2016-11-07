@@ -2,7 +2,7 @@
 # 6.0002 Problem Set 1b: Space Change
 # Name: Yun Chang
 # Collaborators: None
-# Time: 10/31/2016 11:00 pm 
+# Time: 2 hours 
 # Author: charz, cdenise
 
 #================================
@@ -49,3 +49,12 @@ if __name__ == '__main__':
     print("Expected ouput: 9 (3 * 25 + 2 * 10 + 4 * 1 = 99)")
     print("Actual output:", dp_make_weight(egg_weights, n))
     print()
+    
+    egg_weights_2 = (1, 5, 21, 25)
+    n = 63
+    print("Egg weights = (1, 5, 21, 25)")
+    print("n = 63")
+    print("Expected output: 3 (3 * 21)")
+    print("Actual output:", dp_make_weight(egg_weights_2, n, {}))
+    print ()
+    
