@@ -1,8 +1,8 @@
 # 6.0002 Problem Set 5
 # Graph optimization
-# Name:
-# Collaborators:
-# Time:
+# Name: Yun Chang
+# Collaborators: None
+# Time: 3 hrs
 
 #
 # Finding shortest paths through MIT buildings
@@ -23,8 +23,8 @@ from graph import Digraph, Node, WeightedEdge
 #The graph's nodes in this case represents the buildings and 
 #the edges reoresent the paths and connections to different 
 #buildings.The distances are represented in the weights of 
-#the edges. (there are two weights, one represents the distance,
-# other represents indoor distance).
+#the edges. (there are two weights, one represents the actual 
+#distance, the other represents outdoor distance).
 
 
 # Problem 2b: Implementing load_map
@@ -68,12 +68,13 @@ def load_map(map_filename):
         #create the edge from source to destination
         map_edge = WeightedEdge(source,destination,total_dist,outdoor_dist)
         Map.add_edge(map_edge)
+    datafile.close()
     return Map 
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
-#Map = load_map('mit_map.txt')
-#print (str(Map))
+#test_map = load_map('test_load_map.txt')
+#print (str(test_map))
 
 #
 # Problem 3: Finding the Shorest Path using Optimized Search Method
@@ -84,7 +85,7 @@ def load_map(map_filename):
 #
 # Answer: The constraints are the distance spent outdoors and the objective 
 #function is to find a path from start to end that traverses the minimum 
-#distance. 
+#distance required. 
 
 # Problem 3b: Implement get_best_path
 def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
@@ -145,7 +146,7 @@ def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
                 if next_node_out_dist + path[2] <= max_dist_outdoors:
                     #only have to keep going if path is going to be shorter than current best path
                     if best_path == None or next_node_tot_dist + path[1] < best_dist:
-                        path_update = [path[0],path[1]+next_node_tot_dist, path[2]+next_node_out_dist]
+                        path_update = [path[0].copy(), path[1]+next_node_tot_dist, path[2]+next_node_out_dist]
                         #updating original path with [list of node, total distance travelled, total dist outdoors]
                         #note that path[0] not updated here but rather within recursive function due to conderation of starting conditions
                         #the "start" parameter of get_best_path function is str, not Node object. 
