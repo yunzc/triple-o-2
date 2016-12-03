@@ -1,7 +1,7 @@
 # Problem Set 4: Simulating the Spread of Disease and Bacteria Population Dynamics
-# Name:
-# Collaborators (Discussion):
-# Time:
+# Name: Yun Chang
+# Collaborators (Discussion): None
+# Time: 4 hrs 
 
 import math
 import numpy as np
@@ -506,14 +506,16 @@ class TreatedPatient(Patient):
             if not cell.is_killed(): #did not die
                 survivors.append(cell) 
         if self.on_antibiotic: #patient on antibiotics
+            survive_antibiotics = []
             for candidate_cells in survivors:
-                if not candidate_cells.get_resistant(): #not resistant to antibiotics 
-                    survivors.remove(candidate_cells)
+                if candidate_cells.get_resistant(): #survive only if resistant  
+                    survive_antibiotics.append(candidate_cells)
+            survivors = survive_antibiotics
         popul_density = len(survivors)/self.max_pop #current population density
         babies = [] #newly reproduced bacteria cells
         for surviving_cell in survivors:
             try:
-                baby = surviving_cell.reproduce(popul_density)
+                baby = surviving_cell.reproduce(popul_density) #make baby if time is right
                 babies.append(baby)
             except NoChildException: #nothing happens, no new child 
                 pass
@@ -583,12 +585,12 @@ def simulation_with_antibiotic(num_bacteria,
         while ts_no_antibiotic < 150:
             trial_data_tot.append(patient.get_total_pop())
             trial_data_res.append(patient.get_resist_pop())
-            patient.update()
+            patient.update() #time is ticking 
             ts_no_antibiotic += 1
         #add antibiotic 
         patient.set_on_antibiotic()
         ts_w_antibiotic = 0
-        #run 250 with antibiotic 
+        #run 250 steps with antibiotic 
         while ts_w_antibiotic < 250:
             trial_data_tot.append(patient.get_total_pop())
             trial_data_res.append(patient.get_resist_pop())
@@ -616,13 +618,13 @@ def simulation_with_antibiotic(num_bacteria,
 
 # When you are ready to run the simulations, uncomment the next lines one
 # at a time
-total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100, 
-                                                      max_pop=1000,
-                                                      birth_prob=0.3,
-                                                      death_prob=0.2,
-                                                      resistant=False,
-                                                      mut_prob=0.8,
-                                                      num_trials=50)
+#total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100, 
+#                                                      max_pop=1000,
+#                                                      birth_prob=0.3,
+#                                                      death_prob=0.2,
+#                                                      resistant=False,
+#                                                      mut_prob=0.8,                                                      
+#                                                      num_trials=50)
 #
 #total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100,
 #                                                      max_pop=1000,
@@ -632,7 +634,7 @@ total_pop, resistant_pop = simulation_with_antibiotic(num_bacteria=100,
 #                                                      mut_prob=0.8,
 #                                                      num_trials=50)
 
-tot_95_ci = calc_95_ci(total_pop, 299)
-res_95_ci = calc_95_ci(resistant_pop, 299)
-print ('95 % confidence interval for total population estimate: ', tot_95_ci)
-print ('95 % confidence interval for resistant population estimate: ', res_95_ci)
+#tot_95_ci = calc_95_ci(populations, 299)
+#res_95_ci = calc_95_ci(resistant_pop, 299)
+#print ('95 % confidence interval for total population estimate: ', tot_95_ci)
+#print ('95 % confidence interval for resistant population estimate: ', res_95_ci)
